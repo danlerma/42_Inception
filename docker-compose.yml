@@ -1,0 +1,29 @@
+version: '3'
+services:
+    ngx:
+        #name: "ngx-inception"
+        build: .
+        image: nginx
+        restart: always
+        environment:
+            - HOSTNAME=INCEPTION-DAN-NGINX
+            - ENV_PRUEBA=PRUEBA
+        expose:
+            - 443
+            - 80
+        ports:
+            - 9000:9000
+
+    wordpress-php:
+        build: .
+        image: wordpress
+        restart: always
+        environment:
+            - HOSTNAME=INCEPTION-DAN-WORDPRESS
+        ports:
+            - 3306:3306
+        depends_on:
+            - ngx
+
+
+#networks como variable de servicio
