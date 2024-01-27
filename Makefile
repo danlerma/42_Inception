@@ -1,12 +1,12 @@
 NAME=inception
 
-#create:	
-#	docker build -t $(NAME) .
+DIR_COM=srcs/docker-compose.yml
+DIR_ENV=srcs/.env
 
-.PHONY: create work run stop clean
+.PHONY: create work run stop clean re re-start delete
 
 create:
-	docker-compose -f docker-compose.yml --env-file .env -p $(NAME) up -d --build
+	docker-compose -f $(DIR_COM) --env-file $(DIR_ENV)  -p $(NAME) up -d --build
 
 work:
 	rm -rf ~/.docker
@@ -15,10 +15,17 @@ work:
 #	docker run -it $(NAME) bash
 
 run:
-	docker exec -it inception_ngx_1 /bin/bash
+	docker exec -it $(NAME)_ngx_1 /bin/bash
 
 stop:
-	docker-compose stop
+	cd srcs && docker-compose stop
 
 clean: stop
-	docker-compose rm
+	cd srcs && docker-compose rm
+
+re: clean create
+
+re-start: re run
+
+delete:
+	docker rmi -f $(docker images -aq)

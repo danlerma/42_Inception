@@ -1,0 +1,32 @@
+version: '3'
+services:
+    ngx:
+        hostname: "NGINX-DAN"
+        build: requirements/nginx
+        image: debian:buster
+        restart: always
+        tty: true
+        environment:
+            - HOSTNAME=INCEPTION-DAN-NGINX
+            - ENV_PRUEBA=PRUEBA
+        expose:
+            - 443
+            - 80
+        ports:
+            - 9000:9000
+
+    wordpress-php:
+        hostname: "WORDPRESS-DAN"
+        build: requirements/wordpress
+        image: wordpress
+        restart: always
+        tty: true
+        environment:
+            - HOSTNAME=INCEPTION-DAN-WORDPRESS
+        ports:
+            - 3306:3306
+        depends_on:
+            - ngx
+
+
+#networks como variable de servicio
