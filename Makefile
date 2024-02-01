@@ -2,6 +2,7 @@ NAME=inception
 
 DIR_COM=srcs/docker-compose.yml
 DIR_ENV=srcs/.env
+IMAGES="${docker images -aq}"
 
 .PHONY: create work run stop clean re re-start delete
 
@@ -11,11 +12,10 @@ create:
 work:
 	rm -rf ~/.docker
 
-#run:
-#	docker run -it $(NAME) bash
-
 run:
-	docker exec -it $(NAME)_ngx_1 /bin/bash
+	docker exec  --privileged -it inception_ngx_1 bash
+#run:
+#	cd srcs && docker compose exec ngx /bin/bash
 
 stop:
 	cd srcs && docker-compose stop
@@ -28,4 +28,4 @@ re: clean create
 re-start: re run
 
 delete:
-	docker rmi -f $(docker images -aq)
+	 echo "docker rmi -f $(docker images -aq)"
