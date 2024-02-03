@@ -9,12 +9,15 @@ services:
         environment:
             - HOSTNAME=INCEPTION-DAN-NGINX
             - ENV_PRUEBA=PRUEBA
+        networks:
+             comms:
+                 ipv4_address: 192.168.156.2
         expose:
             - 443
             - 80
+            - 22
         ports:
             - 9000:9000
-
     wordpress-php:
         hostname: "WORDPRESS-DAN"
         build: requirements/wordpress
@@ -23,10 +26,23 @@ services:
         tty: true
         environment:
             - HOSTNAME=INCEPTION-DAN-WORDPRESS
+        networks:
+            comms:
+                ipv4_address: 192.168.156.3
+        expose:
+            - 22
+            - 80
+            - 443
         ports:
             - 3306:3306
         depends_on:
             - ngx
-
-
+#rango de 14 IPs validas provadas 
+networks:
+    comms:
+        driver: bridge
+        ipam:
+            config:
+                - subnet: "192.168.156.0/28"
+                  gateway: "192.168.156.1"
 #networks como variable de servicio
