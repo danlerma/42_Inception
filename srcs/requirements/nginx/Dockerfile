@@ -20,3 +20,14 @@ COPY conf/check-config.sh /root
 COPY conf/iptables /etc/sysconfig/
 COPY conf/hosts /etc/
 #COPY conf/ifcfg-eth0 /etc/sysconfig/network-scripts/
+
+RUN apt-get install -y ufw
+RUN apt-get install -y tcpdump
+RUN service ssh start
+RUN service ufw start
+RUN ufw allow 22; ufw reload
+#RUN iptables -A INPUT -p tcp --dport 22 -j ACCEPT
+
+#RUN mkdir .ssh
+#RUN useradd dan
+#RUN passwd -d dan
