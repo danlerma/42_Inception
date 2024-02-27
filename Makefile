@@ -2,7 +2,7 @@ NAME=inception
 
 DIR_COM=srcs/docker-compose.yml
 DIR_ENV=srcs/.env
-IMAGES="${docker images -aq}"
+IMAGES="$(docker images -aq)"
 
 .PHONY: create work run stop clean re re-start delete
 
@@ -18,10 +18,11 @@ run:
 #	cd srcs && docker compose exec ngx /bin/bash
 
 stop:
-	cd srcs && docker-compose stop
+	docker stop inception_ngx_1 inception_wordpress-php_1
 
 clean: stop
-	cd srcs && docker-compose rm
+	docker rm inception_ngx_1 inception_wordpress-php_1
+	docker image prune
 
 re: clean create
 
