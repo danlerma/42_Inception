@@ -10,8 +10,8 @@ RUN apt-get install -y openssh-server
 RUN apt-get install -y iptables
 RUN apt-get install -y mlocate && updatedb
 RUN apt-get install -y net-tools
-RUN service ssh start
-RUN service ssh enable
+#RUN service ssh start
+#RUN service ssh enable
 #Creamos archivo de network
 #RUN cd /etc/sysconfig && mkdir network-scripts
 
@@ -19,14 +19,19 @@ RUN service ssh enable
 COPY conf/check-config.sh /root
 COPY conf/iptables /etc/sysconfig/
 COPY conf/hosts /etc/
+COPY conf/prueba.sh /root
 #COPY conf/ifcfg-eth0 /etc/sysconfig/network-scripts/
 
 RUN apt-get install -y ufw
 RUN apt-get install -y tcpdump
 RUN service ufw start
+RUN service ssh start
+RUN adduser dan
+RUN sh /root/prueba.sh
+
 #RUN ufw enable
 #RUN ufw start
-RUN ufw allow 22; ufw reload
+#RUN ufw allow 22; ufw reload
 #RUN iptables -t nat -A INPUT -p tcp --dport 22 -j ACCEPT
 
 #RUN mkdir .ssh
