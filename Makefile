@@ -1,32 +1,24 @@
+#########################################################################
+#																		#
+#																		#
+#                      Dan Lerma 2024									#
+#																		#
+#																		#
+#########################################################################
+
 NAME=inception
 
-DIR_COM=srcs/docker-compose.yml
-DIR_ENV=srcs/.env
-IMAGES="$(docker images -aq)"
+#Crear el contenedor. No ponemos nombre porque levantamos el servicio que ya tiene nombre
+build:
+	docker-compose -p $(NAME) up -d --build
 
-.PHONY: create work run stop clean re re-start delete
-
-create:
-	docker-compose -f $(DIR_COM) --env-file $(DIR_ENV)  -p $(NAME) up -d --build
-
-work:
-	rm -rf ~/.docker
-
+#Ejecutar en bash la imagen creada, el contenedor
 run:
-	docker exec  --privileged -it inception_ngx_1 bash
-#run:
-#	cd srcs && docker compose exec ngx /bin/bash
+	docker-compose run $(NAME)_mariadb /bin/bash
+#Borrar imagen
+clean:
+	docker rmi inception_mariadb --force
 
-stop:
-	docker stop inception_ngx_1 inception_wordpress-php_1
-
-clean: stop
-	docker rm inception_ngx_1 inception_wordpress-php_1
-	docker image prune
-
-re: clean create
-
-re-start: re run
-
-delete:
-	 echo "docker rmi -f $(docker images -aq)"
+#Borrar network
+netclean:
+	docker network rm $(NAME)_comms

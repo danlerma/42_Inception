@@ -1,6 +1,0 @@
- # ssh host custom
-
- Host 192.168.156.?
- 	Hostname 192.168.156.2
-	User dan
-	Port  22
