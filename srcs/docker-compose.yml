@@ -1,0 +1,18 @@
+version: "3.1"
+
+services:
+  ng:
+    container_name: "nginx_inception"
+    build: "requirements/nginx/."
+    ports:
+     - "80:80"
+    volumes:
+     - ./web-inception:/var/www/html
+  wrdp:
+    container_name: "wordpress_inception"
+    build: "requirements/wordpress/."
+    volumes:
+     - ./web-inception:/var/www/html
+  mariabd:
+    container_name: "mariadb_inception"
+    build: "requirements/mariadb/."
