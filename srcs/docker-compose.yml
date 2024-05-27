@@ -6,13 +6,28 @@ services:
     build: "requirements/nginx/."
     ports:
      - "80:80"
+    depends_on:
+     - wrdp
+     - mariadb
     volumes:
      - ./web-inception:/var/www/html
+    networks:
+      net_inception:
   wrdp:
     container_name: "wordpress_inception"
     build: "requirements/wordpress/."
+    depends_on:
+     - mariadb
     volumes:
      - ./web-inception:/var/www/html
-  mariabd:
+    networks:
+      net_inception:
+  mariadb:
     container_name: "mariadb_inception"
     build: "requirements/mariadb/."
+    networks:
+      net_inception:
+
+networks:
+  net_inception:
+    driver: bridge
