@@ -3,9 +3,8 @@
 .PHONY: all db wrdp ng clean fclean
 
 all:
-	ls -la
-	cd srcs && docker-compose up --build
-
+	cd srcs ; docker-compose up --build
+	
 db:
 	docker exec -it mariadb_inception bash
 

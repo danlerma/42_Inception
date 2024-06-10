@@ -10,7 +10,7 @@ services:
      - wrdp
      - mariadb
     volumes:
-     - ./web-inception:/var/www/html
+     - wordpress:/var/www/html
     networks:
       net_inception:
   wrdp:
@@ -19,14 +19,20 @@ services:
     depends_on:
      - mariadb
     volumes:
-     - ./web-inception:/var/www/html
+     - wordpress:/var/www/html
     networks:
       net_inception:
   mariadb:
     container_name: "mariadb_inception"
     build: "requirements/mariadb/."
+    volumes:
+     - mariadb:/var/lib/mysql
     networks:
       net_inception:
+
+volumes:
+  mariadb:
+  wordpress:
 
 networks:
   net_inception:
